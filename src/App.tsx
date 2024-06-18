@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFound from "./components/NotFound";
+import Loading from "./components/Loading";
 
-function App() {
+const App = () => {
+  const Home = React.lazy(() => import("./pages/Home"));
+  const About = React.lazy(() => import("./pages/About"));
+  const Contact = React.lazy(() => import("./pages/Contact"));
+  const Reservation = React.lazy(() => import("./pages/Reservation"));
+  const Calendar = React.lazy(() => import("./pages/Calendar"));
+  const Races = React.lazy(() => import("./pages/Races"));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/reservation" element={<Reservation />} />
+          <Route path="/races" element={<Races />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </Router>
   );
-}
+};
 
 export default App;
