@@ -1,9 +1,134 @@
-import React from "react";
+import React, { useState } from "react";
+import Modal from "./components/EventModal";
+
+interface Event {
+  title: string;
+  time: string;
+  capacity: number;
+  spotsTaken: number;
+}
+
+interface CalendarEvent {
+  date: string;
+  events: Event[];
+}
+const eventsData: CalendarEvent[] = [
+  {
+    date: "2021-12-27",
+    events: [
+      { title: "Open Practice", time: "9AM", capacity: 20, spotsTaken: 15 },
+    ],
+  },
+  { date: "2021-12-28", events: [] },
+  { date: "2021-12-29", events: [] },
+  { date: "2021-12-30", events: [] },
+  { date: "2021-12-31", events: [] },
+  {
+    date: "2022-01-01",
+    events: [
+      { title: "Open Practice!", time: "4PM", capacity: 25, spotsTaken: 10 },
+    ],
+  },
+  { date: "2022-01-02", events: [] },
+  {
+    date: "2022-01-03",
+    events: [
+      { title: "Open Practice", time: "9PM", capacity: 30, spotsTaken: 5 },
+    ],
+  },
+  {
+    date: "2022-01-04",
+    events: [
+      { title: "Open Practice!", time: "4PM", capacity: 20, spotsTaken: 20 },
+    ],
+  },
+  { date: "2022-01-05", events: [] },
+  { date: "2022-01-06", events: [] },
+  { date: "2022-01-07", events: [] },
+  { date: "2022-01-08", events: [] },
+  { date: "2022-01-09", events: [] },
+  {
+    date: "2022-01-10",
+    events: [
+      { title: "OTHG Race!", time: "9PM", capacity: 15, spotsTaken: 12 },
+    ],
+  },
+  { date: "2022-01-11", events: [] },
+  {
+    date: "2022-01-12",
+    events: [
+      { title: "Open Practice!", time: "2PM", capacity: 20, spotsTaken: 10 },
+    ],
+  },
+  { date: "2022-01-13", events: [] },
+  { date: "2022-01-14", events: [] },
+  { date: "2022-01-15", events: [] },
+  { date: "2022-01-16", events: [] },
+  {
+    date: "2022-01-17",
+    events: [
+      { title: "Open Practice", time: "9PM", capacity: 30, spotsTaken: 5 },
+    ],
+  },
+  {
+    date: "2022-01-18",
+    events: [
+      { title: "Open Practice!", time: "4PM", capacity: 25, spotsTaken: 23 },
+    ],
+  },
+  { date: "2022-01-19", events: [] },
+  { date: "2022-01-20", events: [] },
+  {
+    date: "2022-01-21",
+    events: [
+      { title: "Open Practice!", time: "4PM", capacity: 20, spotsTaken: 18 },
+    ],
+  },
+  { date: "2022-01-22", events: [] },
+  { date: "2022-01-23", events: [] },
+  {
+    date: "2022-01-24",
+    events: [
+      { title: "Open Practice", time: "9PM", capacity: 30, spotsTaken: 20 },
+    ],
+  },
+  { date: "2022-01-25", events: [] },
+  { date: "2022-01-26", events: [] },
+  {
+    date: "2022-01-27",
+    events: [
+      { title: "Open Practice!", time: "4PM", capacity: 25, spotsTaken: 25 },
+    ],
+  },
+  { date: "2022-01-28", events: [] },
+  { date: "2022-01-29", events: [] },
+  { date: "2022-01-30", events: [] },
+  { date: "2022-01-31", events: [] },
+  {
+    date: "2022-02-01",
+    events: [
+      { title: "Open Practice!", time: "4PM", capacity: 20, spotsTaken: 5 },
+    ],
+  },
+  { date: "2022-02-02", events: [] },
+  { date: "2022-02-03", events: [] },
+  { date: "2022-02-04", events: [] },
+  { date: "2022-02-05", events: [] },
+  { date: "2022-02-06", events: [] },
+];
 
 const Calendar: React.FC = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
+  const handleEventClick = (event: Event) => {
+    setSelectedEvent(event);
+    setModalOpen(true);
+  };
+
   return (
     <div className="lg:flex lg:h-full lg:flex-col">
-      <header className="flex items-center justify-between border-b border-gray-200 px-6 py-4 lg:flex-none">
+      <header className="flex items-center justify-between border-b border-gray-200 pr-6 py-4 lg:flex-none">
         <h1 className="text-base font-semibold leading-6 text-gray-900">
           <time dateTime="2022-01">January 2022</time>
         </h1>
@@ -77,13 +202,6 @@ const Calendar: React.FC = () => {
                 </svg>
               </button>
             </div>
-            <div className="ml-6 h-6 w-px bg-gray-300"></div>
-            <button
-              type="button"
-              className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-            >
-              Add event
-            </button>
           </div>
           <div className="relative ml-6 md:hidden">
             <button
@@ -208,647 +326,70 @@ const Calendar: React.FC = () => {
         </div>
         <div className="flex bg-gray-200 text-xs leading-6 text-gray-700 lg:flex-auto">
           <div className="hidden w-full lg:grid lg:grid-cols-7 lg:grid-rows-6 lg:gap-px">
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2021-12-27">27</time>
-              <ol className="mt-2">
-                <li>
-                  <a href="#" className="group flex">
-                    <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                      Open Practice
-                    </p>
-                    <time
-                      dateTime="2022-01-03T10:00"
-                      className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                    >
-                      9AM
-                    </time>
-                  </a>
-                </li>
-              </ol>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2021-12-28">28</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2021-12-29">29</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2021-12-30">30</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2021-12-31">31</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-01">1</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-01">2</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-03">3</time>
-              <ol className="mt-2">
-                <li>
-                  <a href="#" className="group flex">
-                    <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                      Open Practice
-                    </p>
-                    <time
-                      dateTime="2022-01-03T10:00"
-                      className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                    >
-                      9PM
-                    </time>
-                  </a>
-                </li>
-              </ol>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-04">4</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-05">5</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-06">6</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-07">7</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-08">8</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-09">9</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-10">10</time>
-              <ol className="mt-2">
-                <li>
-                  <a href="#" className="group flex">
-                    <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                      OTHG Race!
-                    </p>
-                    <time
-                      dateTime="2022-01-03T10:00"
-                      className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                    >
-                      9PM
-                    </time>
-                  </a>
-                </li>
-              </ol>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-11">11</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time
-                dateTime="2022-01-12"
-                className="flex h-6 w-6 items-center justify-center rounded-full"
+            {eventsData.map(({ date, events }) => (
+              <div
+                className={`relative ${new Date(date) < new Date("2022-01-01") ? "bg-gray-50" : "bg-white"} px-3 py-2 text-gray-500`}
+                key={date}
               >
-                12
-              </time>
-              <ol className="mt-2">
-                <li>
-                  <a href="#" className="group flex">
-                    <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                      Open Practice!
-                    </p>
-                    <time
-                      dateTime="2022-01-03T10:00"
-                      className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                    >
-                      2PM
-                    </time>
-                  </a>
-                </li>
-              </ol>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-13">13</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-14">14</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-15">15</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-16">16</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-17">17</time>
-              <ol className="mt-2">
-                <li>
-                  <a href="#" className="group flex">
-                    <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                      Open Practice
-                    </p>
-                    <time
-                      dateTime="2022-01-03T10:00"
-                      className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                    >
-                      9PM
-                    </time>
-                  </a>
-                </li>
-              </ol>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time
-                dateTime="2022-01-12"
-                className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white"
-              >
-                18
-              </time>
-              <ol className="mt-2">
-                <li>
-                  <a href="#" className="group flex">
-                    <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                      Open Practice!
-                    </p>
-                    <time
-                      dateTime="2022-01-03T10:00"
-                      className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                    >
-                      4PM
-                    </time>
-                  </a>
-                </li>
-              </ol>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-19">19</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-20">20</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-21">21</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-22">22</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-23">23</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-24">24</time>
-              <ol className="mt-2">
-                <li>
-                  <a href="#" className="group flex">
-                    <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
-                      Open Practice
-                    </p>
-                    <time
-                      dateTime="2022-01-03T10:00"
-                      className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
-                    >
-                      9PM
-                    </time>
-                  </a>
-                </li>
-              </ol>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-25">25</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-26">26</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-27">27</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-28">28</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-29">29</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-30">30</time>
-            </div>
-            <div className="relative bg-white px-3 py-2">
-              <time dateTime="2022-01-31">31</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2022-02-01">1</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2022-02-02">2</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2022-02-03">3</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2022-02-04">4</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2022-02-05">5</time>
-            </div>
-            <div className="relative bg-gray-50 px-3 py-2 text-gray-500">
-              <time dateTime="2022-02-06">6</time>
-            </div>
+                <time dateTime={date}>{new Date(date).getDate()}</time>
+                {events.length > 0 && (
+                  <ol className="mt-2">
+                    {events.map((event, index) => (
+                      <li key={index}>
+                        <button
+                          onClick={() => handleEventClick(event)}
+                          className="group flex"
+                        >
+                          <p className="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600">
+                            {event.title}
+                          </p>
+                          <time
+                            dateTime={`${date}T${event.time.replace(/[^0-9]/g, "")}:00`}
+                            className="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
+                          >
+                            {event.time}
+                          </time>
+                        </button>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </div>
+            ))}
           </div>
+          {selectedEvent && (
+            <Modal
+              isOpen={modalOpen}
+              onClose={() => setModalOpen(false)}
+              eventTitle={selectedEvent.title}
+              eventTime={selectedEvent.time}
+              capacity={selectedEvent.capacity}
+              spotsTaken={selectedEvent.spotsTaken}
+            />
+          )}
           <div className="isolate grid w-full grid-cols-7 grid-rows-6 gap-px lg:hidden">
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2021-12-27" className="ml-auto">
-                27
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2021-12-28" className="ml-auto">
-                28
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2021-12-29" className="ml-auto">
-                29
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2021-12-30" className="ml-auto">
-                30
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2021-12-31" className="ml-auto">
-                31
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-01" className="ml-auto">
-                1
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-02" className="ml-auto">
-                2
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-03" className="ml-auto">
-                3
-              </time>
-              <span className="sr-only">2 events</span>
-              <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
-                <span className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-                <span className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              </span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-04" className="ml-auto">
-                4
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-05" className="ml-auto">
-                5
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-06" className="ml-auto">
-                6
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-07" className="ml-auto">
-                7
-              </time>
-              <span className="sr-only">1 event</span>
-              <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
-                <span className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              </span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-08" className="ml-auto">
-                8
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-09" className="ml-auto">
-                9
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-10" className="ml-auto">
-                10
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-11" className="ml-auto">
-                11
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 font-semibold text-indigo-600 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-12" className="ml-auto">
-                12
-              </time>
-              <span className="sr-only">1 event</span>
-              <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
-                <span className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              </span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-13" className="ml-auto">
-                13
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-14" className="ml-auto">
-                14
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-15" className="ml-auto">
-                15
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-16" className="ml-auto">
-                16
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-17" className="ml-auto">
-                17
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-18" className="ml-auto">
-                18
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-19" className="ml-auto">
-                19
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-20" className="ml-auto">
-                20
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-21" className="ml-auto">
-                21
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 font-semibold text-white hover:bg-gray-100 focus:z-10"
-            >
-              <time
-                dateTime="2022-01-22"
-                className="ml-auto flex h-6 w-6 items-center justify-center rounded-full bg-gray-900"
+            {eventsData.map(({ date, events }) => (
+              <button
+                type="button"
+                className={`flex h-14 flex-col ${new Date(date) < new Date("2022-01-01") ? "bg-gray-50" : "bg-white"} px-3 py-2 text-gray-${new Date(date) < new Date("2022-01-01") ? "500" : "900"} hover:bg-gray-100 focus:z-10`}
+                key={date}
               >
-                22
-              </time>
-              <span className="sr-only">2 events</span>
-              <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
-                <span className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-                <span className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              </span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-23" className="ml-auto">
-                23
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-24" className="ml-auto">
-                24
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-25" className="ml-auto">
-                25
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-26" className="ml-auto">
-                26
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-27" className="ml-auto">
-                27
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-28" className="ml-auto">
-                28
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-29" className="ml-auto">
-                29
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-30" className="ml-auto">
-                30
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-white px-3 py-2 text-gray-900 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-01-31" className="ml-auto">
-                31
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-02-01" className="ml-auto">
-                1
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-02-02" className="ml-auto">
-                2
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-02-03" className="ml-auto">
-                3
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-02-04" className="ml-auto">
-                4
-              </time>
-              <span className="sr-only">1 event</span>
-              <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
-                <span className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"></span>
-              </span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-02-05" className="ml-auto">
-                5
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
-            <button
-              type="button"
-              className="flex h-14 flex-col bg-gray-50 px-3 py-2 text-gray-500 hover:bg-gray-100 focus:z-10"
-            >
-              <time dateTime="2022-02-06" className="ml-auto">
-                6
-              </time>
-              <span className="sr-only">0 events</span>
-            </button>
+                <time dateTime={date} className="ml-auto">
+                  {new Date(date).getDate()}
+                </time>
+                <span className="sr-only">{events.length} events</span>
+                {events.length > 0 && (
+                  <span className="-mx-0.5 mt-auto flex flex-wrap-reverse">
+                    {events.map((event, index) => (
+                      <span
+                        key={index}
+                        className="mx-0.5 mb-1 h-1.5 w-1.5 rounded-full bg-gray-400"
+                      ></span>
+                    ))}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
         </div>
       </div>

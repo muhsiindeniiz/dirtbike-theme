@@ -16,7 +16,7 @@ const RacesPage = () => {
   const data = [
     {
       title: "OTHG Practice June 8th, OTHG Race June 9th 2024",
-      url: "/reservation",
+      url: "/calendar",
       location: "NY, USA",
       time: "9AM PCT",
       price: 45,
@@ -25,7 +25,7 @@ const RacesPage = () => {
     },
     {
       title: "OTHG Practice July 27th, OTHG Race July 28th 2024",
-      url: "/reservation",
+      url: "/calendar",
       location: "NY, USA",
       time: "9AM PCT",
       price: 45,
@@ -34,7 +34,7 @@ const RacesPage = () => {
     },
     {
       title: "OTHG Practice Nov 16th, OTHG Race Nov 17th 2024",
-      url: "/reservation",
+      url: "/calendar",
       location: "NY, USA",
       time: "9AM PCT",
       price: 45,
